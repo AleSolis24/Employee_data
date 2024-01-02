@@ -7,15 +7,15 @@ VALUES
     ('DEPOT'),
     ('SALES'),
     ('SUPPORT'),
-    ('Devlopers').
-    
+    ('Developers'); 
+
 INSERT INTO role
     (title, salary, department_id)    
 VALUES
-    ('OPS Lead', 60000 1),
-    ('OPS Specialist', 45000 1),
-    ('Depot Lead' 35000 2),
-    ('Depot Specialist', 29000 2)
+    ('OPS Lead', 60000, 1),  
+    ('OPS Specialist', 45000, 1),
+    ('Depot Lead', 35000, 2), 
+    ('Depot Specialist', 29000, 2),
     ('AR', 70000, 3),
     ('Controller', 100000, 3),
     ('Support Supervisor', 85000, 4),
@@ -26,4 +26,4 @@ VALUES
 INSERT INTO employee
     (first_name, last_name, role_id, manager_id)
 VALUES
-    ('David', 'jones', 2, NULL)
+    ('David', 'Jones', 2, NULL);  
