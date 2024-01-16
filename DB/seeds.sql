@@ -5,8 +5,8 @@ VALUES
     ('OPS'),
     ('DEPOT'),
     ('SALES'),
-    ('SUPPORT'),
-    ('Developers'); 
+    ('SUPPORT');
+     
 
 
 INSERT INTO role (title, salary, department_id)    
