@@ -8,6 +8,7 @@ connection.connect((err) => {
   startJob();
 });
 
+
 async function startJob() {
   try {
     const res = await inquirer.prompt([
@@ -58,8 +59,7 @@ async function startJob() {
       await viewRoles();
       break;
       
-   
-
+  
       case 'END':
         console.log('Ending the program.');
         connection.end();
@@ -88,11 +88,13 @@ function addEmployee() {
       name: 'role_id',
       type: 'input',
       message: 'Enter User Role',
+      choices: ['OPS Lead', 'OPS Specialist', 'Depot Lead', 'Depot Specialist', 'AR', 'Controller','Support Supervisor', 'Support Specialist' ],
     },
     {
       name: 'manager_id',
       type: 'input',
       message: 'Enter User Manager',
+      // choices: ['Michelle', 'Lockwood']
     },
   ]).then((answer) => {
     const query = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)';
