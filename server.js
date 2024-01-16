@@ -52,14 +52,24 @@ async function startJob() {
       case 'Add User':
         await addEmployee();
         break;
-      case 'View All Users':
+      case 'View All department':
         await viewDepartments();
         break;
       case 'View Roles': 
       await viewRoles();
       break;
-      
-  
+      case 'View All Employees':
+      await viewAllEmployees();
+      break;
+      case 'Add A Department':
+      await addADepartment();
+      break;
+      case 'Add A Role':
+      await addARole();
+      break;
+      case 'Update Employee Role':
+      await updateEmployee();
+      break;
       case 'END':
         console.log('Ending the program.');
         connection.end();
@@ -86,7 +96,7 @@ function addEmployee() {
     },
     {
       name: 'role_id',
-      type: 'input',
+      type: 'list',
       message: 'Enter User Role',
       choices: ['OPS Lead', 'OPS Specialist', 'Depot Lead', 'Depot Specialist', 'AR', 'Controller','Support Supervisor', 'Support Specialist' ],
     },
@@ -123,3 +133,9 @@ function viewDepartments(callback) {
   });
   startJob();
 }
+
+function addADepartment() {
+
+};
+
+// function 
