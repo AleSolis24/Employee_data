@@ -1,6 +1,12 @@
-const connection = require("./DB/connection");
 const inquirer = require("inquirer");
+const mysql = require("mysql2");
 
+const connection = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "Snoopy24",
+  database: "employees",
+});
 
 connection.connect((err) => {
   if (err) throw err;
@@ -78,14 +84,19 @@ function addEmployee() {
     },
     {
       name: 'role_id',
-      type: 'list',
-      message: 'Enter User Role',
-      choices: [1, 2, 3, 4, 5, 6, 7, 8], // Use the actual role IDs
+      type: 'input',
+      message: 'Enter User Role ID',
+      validate: function (input) {
+        return !isNaN(input) ? true : 'Please enter a valid number';
+      },
     },
     {
       name: 'manager_id',
       type: 'input',
-      message: 'Enter User Manager',
+      message: 'Enter User Manager ID',
+      validate: function (input) {
+        return !isNaN(input) ? true : 'Please enter a valid number';
+      },
     },
   ]).then((answer) => {
     const query = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)';
@@ -109,8 +120,9 @@ function viewDepartments() {
     } else {
       console.table(results);
     }
-    startJob(); // Moved this here to ensure it's called after the query is executed
+    
   });
+  startJob(); // This line was removed from here
 }
 
 function addADepartment() {
@@ -145,7 +157,7 @@ function viewAllEmployees() {
     } else {
       console.table(results);
     }
-    startJob(); // Ensure to call startJob after displaying the results
+    startJob(); 
   });
 }
 
@@ -158,6 +170,6 @@ function viewRoles() {
     } else {
       console.table(results);
     }
-    startJob(); // Ensure to call startJob after displaying the results
+    startJob(); 
   });
 }
