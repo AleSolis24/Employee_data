@@ -207,11 +207,18 @@ function updateEmployee() {
 inquirer.prompt([
   {
     name: 'newRole',
-    type: 'choices',
-    choices: {
-      
-    }
-  }
+    type: 'list',
+    choices: [
+      "OPS Lead",
+      "OPS Specialist",
+      "Depot Lead",
+      "Depot Specialist",
+      "AR",
+      "Controller",
+      "Support Supervisor",
+      "Support Specialist"
+    ],
+  },
 ])
 }
 
