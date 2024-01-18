@@ -45,27 +45,24 @@ async function startJob() {
       case 'View All Departments':
         await viewDepartments(); // done 
         break;
-      case 'View Roles':
+      case 'View All Roles':
         await viewRoles(); // done 
         break;
       case 'View All Employees':
-        await viewAllEmployees();
+        await viewAllEmployees(); // done 
         break;
       case 'Add Department':
         await addADepartment(); // done 
         break;
       case 'Add Role':
-        await addARole();
+        await addARole(); // done 
         break;
       case 'Update Employee Role':
         await updateEmployee();
         break;
       case 'END':
-        console.log('Ending the program.');
+        console.log('Bye-Bye!');
         connection.end();
-        return;
-      default:
-        console.log('Invalid choice');
     }
   } catch (error) {
     console.error('Error:', error);
@@ -124,7 +121,7 @@ function viewDepartments() {
     }
     
   });
-  startJob(); // This line was removed from here
+  startJob(); 
 }
 
 function addADepartment() {
@@ -174,14 +171,14 @@ function viewRoles() {
     }
     startJob(); 
   });
-}
+};
 
 function addARole() {
   inquirer.prompt([
     {
       name: 'title',
       type: 'input',
-      message: 'Add User Role Title',
+      message: 'Add A New Role!'
     },
     {
       name: 'salary',
@@ -191,8 +188,13 @@ function addARole() {
     },
     {
       name: 'department_id',
-      type: 'input',
-      message: 'Enter User Department ID',
+      type: 'choices',
+      choices: [
+        1,
+        3,
+        6,
+        8,
+      ],
     }
   ]).then((answer) => {
     const query = 'INSERT INTO role(title, salary, department_id) VALUE (?, ?, ?)';
@@ -200,3 +202,19 @@ function addARole() {
     startJob();
   })
 };
+
+function updateEmployee() {
+inquirer.prompt([
+  {
+    name: 'newRole',
+    type: 'choices',
+    choices: {
+      
+    }
+  }
+])
+}
+
+
+const query = 'UPDATE entries SET employee(role_id, department_id) FROM employee';
+connection.query(query,[])
