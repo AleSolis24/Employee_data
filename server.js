@@ -1,11 +1,13 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql2");
 
+
+
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "Snoopy24",
-  database: "employees",
+  database: "employees_db",
 });
 
 connection.connect((err) => {
@@ -38,19 +40,19 @@ async function startJob() {
 
     switch (res.choices) {
       case 'Add Employee':
-        await addEmployee();
+        await addEmployee(); // done
         break;
       case 'View All Departments':
-        await viewDepartments();
+        await viewDepartments(); // done 
         break;
       case 'View Roles':
-        await viewRoles();
+        await viewRoles(); // done 
         break;
       case 'View All Employees':
         await viewAllEmployees();
         break;
       case 'Add Department':
-        await addADepartment();
+        await addADepartment(); // done 
         break;
       case 'Add Role':
         await addARole();
@@ -173,3 +175,28 @@ function viewRoles() {
     startJob(); 
   });
 }
+
+function addARole() {
+  inquirer.prompt([
+    {
+      name: 'title',
+      type: 'input',
+      message: 'Add User Role Title',
+    },
+    {
+      name: 'salary',
+      type: 'input',
+      message: 'Enter User Pay',
+
+    },
+    {
+      name: 'department_id',
+      type: 'input',
+      message: 'Enter User Department ID',
+    }
+  ]).then((answer) => {
+    const query = 'INSERT INTO role(title, salary, department_id) VALUE (?, ?, ?)';
+    connection.query(query, [answer.title, answer.salary, answer.department_id]);
+    startJob();
+  })
+};
