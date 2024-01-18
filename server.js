@@ -219,9 +219,30 @@ inquirer.prompt([
       "Support Specialist"
     ],
   },
+  {
+    name: 'newDepartment',
+    type: 'list',
+    choices: [
+      "OPS",
+      "DEPOT",
+      "SALES",
+      "SUPPORT"
+    ]
+  },
+  {
+    name: 'newDepartmentId',
+    type: 'list',
+    choices: [
+      1,
+      2,
+      3,
+      4
+    ],
+  },
+
 ])
 }
 
 
-const query = 'UPDATE entries SET employee(role_id, department_id) FROM employee';
+const query = 'UPDATE entries SET employee(title, salary, role_id, department_id) FROM employee';
 connection.query(query,[])
