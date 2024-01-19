@@ -34,6 +34,7 @@ async function startJob() {
           'Add Department',
           'END'
         ],
+        loop: false
       },
     ]);
 
@@ -67,6 +68,7 @@ async function startJob() {
         // discount the connection 
         connection.end();
     }
+
   } catch (error) {
     console.error('Error:', error);
   }
@@ -123,7 +125,7 @@ function viewDepartments() {
   const query = 'SELECT id AS department_id, name AS department_name FROM department';
   connection.query(query, (err, results) => {
     if (err) {
-      console.error('Error viewing departments:', err);
+      console.error('There a ERROR!:', err);
     } else {
       console.table(results);
     }
@@ -216,48 +218,50 @@ function addARole() {
 };
 
 function updateEmployee() {
-inquirer.prompt([
-  {
-    name: 'newRole',
-    type: 'list',
-    choices: [
-      "OPS Lead",
-      "OPS Specialist",
-      "Depot Lead",
-      "Depot Specialist",
-      "AR",
-      "Controller",
-      "Support Supervisor",
-      "Support Specialist"
-    ],
-  },
-  {
-    name: 'newDepartment',
-    type: 'list',
-    choices: [
-      "OPS",
-      "DEPOT",
-      "SALES",
-      "SUPPORT"
-    ]
-  },
+  inquirer.prompt([
+    {
+      name: 'newRole',
+      type: 'list',
+      choices: [
+        "OPS Lead",
+        "OPS Specialist",
+        "Depot Lead",
+        "Depot Specialist",
+        "AR",
+        "Controller",
+        "Support Supervisor",
+        "Support Specialist"
+      ],
+    },
+    {
+      name: 'newDepartment',
+      type: 'list',
+      choices: [
+        "OPS",
+        "DEPOT",
+        "SALES",
+        "SUPPORT"
+      ]
+    },
+  
+    {
+      name: 'newSalary',
+      type: 'list',
+      choices: [ 
+        65000,
+        55000,
+        35000,
+        29000,
+        70000,
+        100000,
+        85000,
+        20000
+      ],
+    },
+   ]).then((update) => {
+    const query = 'UPDATE entries SET employee(salary, role_id, department_id) FROM employee';
+  connection.query(query,[update.newRole, update.newDepartment, update.newSalary])
+   })
+  
+  };
 
-  {
-    name: 'newSalary',
-    type: 'list',
-    choices: [ 
-      65000,
-      55000,
-      35000,
-      29000,
-      70000,
-      100000,
-      85000,
-      20000
-    ],
-  },
- ]).then((update) => {
-  const query = 'UPDATE entries SET employee(salary, role_id, department_id) FROM employee';
-connection.query(query,[])
- })
-};
