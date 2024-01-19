@@ -1,8 +1,7 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql2");
 
-
-
+// this is allowing connection to connect to my SQL DB using DB of "employees_db"
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -16,8 +15,10 @@ connection.connect((err) => {
   startJob();
 });
 
+// User prompt to select the choices of how they want to work on the DB
 async function startJob() {
   try {
+    // using inquirer to allow to use the prompt method 
     const res = await inquirer.prompt([
       {
         type: 'list',
@@ -37,39 +38,42 @@ async function startJob() {
     ]);
 
     console.log('You selected:', res.choices);
-
+    // My pompt on how to add certain functionally on adding adding a worker, viewing all dept., viewing all roles, viewing all worker, and updating the user roles 
     switch (res.choices) {
       case 'Add Employee':
-        await addEmployee(); // done
+        await addEmployee(); // function to add a employee 
         break;
       case 'View All Departments':
-        await viewDepartments(); // done 
+        await viewDepartments(); // function to view all dept. 
         break;
       case 'View All Roles':
-        await viewRoles(); // done 
+        await viewRoles(); // function to view all roles  
         break;
       case 'View All Employees':
-        await viewAllEmployees(); // done 
+        await viewAllEmployees(); // function to view all workers 
         break;
       case 'Add Department':
-        await addADepartment(); // done 
+        await addADepartment(); // function to add a dept. 
         break;
       case 'Add Role':
-        await addARole(); // done 
+        await addARole(); // function to add a role  
         break;
       case 'Update Employee Role':
-        await updateEmployee();
+        await updateEmployee(); // function to update the worker role (work in process)
         break;
+        // case to end the program 
       case 'END':
         console.log('Bye-Bye!');
+        // discount the connection 
         connection.end();
     }
   } catch (error) {
     console.error('Error:', error);
   }
 }
-
+// function to add a worker 
 function addEmployee() {
+  // using inquirer.prompt to allow the user to add the new infromation. 
   inquirer.prompt([
     {
       name: 'first_name',
@@ -97,7 +101,9 @@ function addEmployee() {
         return !isNaN(input) ? true : 'Please enter a valid number';
       },
     },
-  ]).then((answer) => {
+  ])
+  // then method to receive the information the user enter to be added in the SQL DB 
+  .then((answer) => {
     const query = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)';
     connection.query(
       query,
@@ -105,12 +111,14 @@ function addEmployee() {
       (err) => {
         if (err) throw err;
         console.log('Employee has been added');
+        // calling "startJob" to allow the user to view the prompt questions.
         startJob();
       }
     );
   });
 }
 
+// this function is to allow the user to view all department 
 function viewDepartments() {
   const query = 'SELECT id AS department_id, name AS department_name FROM department';
   connection.query(query, (err, results) => {
@@ -121,10 +129,13 @@ function viewDepartments() {
     }
     
   });
+  // this is calling the function to allow the user to view all dept. 
   startJob(); 
 }
 
+// function to add a new dept. 
 function addADepartment() {
+  // using prompt to allow the user to add new dept. by inputting them in. 
   inquirer.prompt([
     {
       name: 'department_name',
@@ -138,7 +149,7 @@ function addADepartment() {
       [answer.department_name],
       (err) => {
         if (err) {
-          console.error('Error adding department:', err);
+          console.error('There a ERROR!:', err);
         } else {
           console.log('Department has been added');
         }
@@ -147,12 +158,13 @@ function addADepartment() {
     );
   });
 }
-
+// function to view all workers
 function viewAllEmployees() {
+  // using query to select the user first/last name, role, manager into the employee table 
   const query = 'SELECT id, first_name, last_name, role_id, manager_id FROM employee';
   connection.query(query, (err, results) => {
     if (err) {
-      console.error('Error viewing employees:', err);
+      console.error('There a ERROR!:', err);
     } else {
       console.table(results);
     }
@@ -165,7 +177,7 @@ function viewRoles() {
   const query = 'SELECT id, title, salary, department_id FROM role';
   connection.query(query, (err, results) => {
     if (err) {
-      console.error('Error viewing roles:', err);
+      console.error('There a ERROR!:', err);
     } else {
       console.table(results);
     }
@@ -229,20 +241,23 @@ inquirer.prompt([
       "SUPPORT"
     ]
   },
+
   {
-    name: 'newDepartmentId',
+    name: 'newSalary',
     type: 'list',
-    choices: [
-      1,
-      2,
-      3,
-      4
+    choices: [ 
+      65000,
+      55000,
+      35000,
+      29000,
+      70000,
+      100000,
+      85000,
+      20000
     ],
   },
-
-])
-}
-
-
-const query = 'UPDATE entries SET employee(title, salary, role_id, department_id) FROM employee';
+ ]).then((update) => {
+  const query = 'UPDATE entries SET employee(salary, role_id, department_id) FROM employee';
 connection.query(query,[])
+ })
+};
