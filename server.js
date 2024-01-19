@@ -28,7 +28,6 @@ async function startJob() {
           'View All Employees',
           'Add Employee',
           'View All Roles',
-          'Update Employee Role',
           'Add Role',
           'View All Departments',
           'Add Department',
@@ -59,10 +58,7 @@ async function startJob() {
       case 'Add Role':
         await addARole(); // function to add a role  
         break;
-      case 'Update Employee Role':
-        await updateEmployee(); // function to update the worker role (work in process)
-        break;
-        // case to end the program 
+       // case to end the program 
       case 'END':
         console.log('Bye-Bye!');
         // discount the connection 
@@ -217,51 +213,5 @@ function addARole() {
   })
 };
 
-function updateEmployee() {
-  inquirer.prompt([
-    {
-      name: 'newRole',
-      type: 'list',
-      choices: [
-        "OPS Lead",
-        "OPS Specialist",
-        "Depot Lead",
-        "Depot Specialist",
-        "AR",
-        "Controller",
-        "Support Supervisor",
-        "Support Specialist"
-      ],
-    },
-    {
-      name: 'newDepartment',
-      type: 'list',
-      choices: [
-        "OPS",
-        "DEPOT",
-        "SALES",
-        "SUPPORT"
-      ]
-    },
-  
-    {
-      name: 'newSalary',
-      type: 'list',
-      choices: [ 
-        65000,
-        55000,
-        35000,
-        29000,
-        70000,
-        100000,
-        85000,
-        20000
-      ],
-    },
-   ]).then((update) => {
-    const query = 'UPDATE entries SET employee(salary, role_id, department_id) FROM employee';
-  connection.query(query,[update.newRole, update.newDepartment, update.newSalary])
-   })
-  
-  };
+
 
